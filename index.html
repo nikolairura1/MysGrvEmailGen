@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Book Request</title>
+    <link rel="stylesheet" href="styles.css">
+    <script defer src="script.js"></script>
+fetch('/.netlify/functions/getApiKey')
+  .then(response => response.json())
+  .then(data => {
+      const script = document.createElement("script");
+      script.src = `https://maps.googleapis.com/maps/api/js?key=${data.apiKey}&libraries=places&callback=initMap`;
+      script.defer = true;
+      document.body.appendChild(script);
+  });
+</head>
+<body>
+    <h1>Request a Book at Your Local Library</h1>
+    
+    <div id="controls">
+        <label for="book-select">Choose a book:</label>
+        <select id="book-select">
+            <option value="Storm of Steel">Storm of Steel</option>
+            <option value="Always with Honor">Always with Honor</option>
+            <option value="Peter Kemp Trilogy">Peter Kemp Trilogy</option>
+            <option value="Conrad Masterworks">Conrad Masterworks</option>
+            <option value="Oblensky Memoir">Oblensky Memoir</option>
+        </select>
+    </div>
+
+    <div id="map"></div>
+
+    <p id="map-info">Click on a library marker to request a book. The library’s email address will be pulled automatically (if available). This will generate a template, but please read through it carefully and then modify and personalize it as much as possible. The more personalized and authentic your request, the more likely the book is to be stocked.</p>
+
+<p>Also, please check beforehand to make sure the book hasn't been stocked already in your local library. Thank you for supporting honest historical publishing!</p>
+
+    <textarea id="email-text" placeholder="Your email request will appear here..." rows="6"></textarea>
+
+</body>
+</html>
