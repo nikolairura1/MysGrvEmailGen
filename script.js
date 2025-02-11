@@ -80,17 +80,34 @@ function createMarker(place) {
         map,
         position: place.geometry.location,
         icon: {
-            url: "http://maps.google.com/mapfiles/ms/icons/red-dot.png", // Red dot for visibility
-            scaledSize: new google.maps.Size(40, 40) // Adjust size
+            url: "http://maps.google.com/mapfiles/ms/icons/red-dot.png",
+            scaledSize: new google.maps.Size(40, 40)
         }
     });
 
     google.maps.event.addListener(marker, "click", () => {
-        infowindow.setContent(
-            `<strong>${place.name}</strong><br>
-            <button onclick="generateEmail('${place.name}', '${place.formatted_address || place.vicinity}')">Request Book</button>`
-        );
-        infowindow.open(map, marker);
+        fetchLibraryDetails(place.place_id, place.name);
+    });
+}
+
+function fetchLibraryDetails(placeId, libraryName) {
+    service.getDetails({ placeId: placeId }, (place, status) => {
+        if (status === google.maps.places.PlacesServiceStatus.OK) {
+            let libraryEmail = "Email not available";
+            
+            if (place.website) {
+                libraryEmail = `Visit website for contact: ${place.website}`;
+            } else if (place.international_phone_number) {
+                libraryEmail = `Phone: ${place.international_phone_number}`;
+            }
+
+            infowindow.setContent(
+                `<strong>${libraryName}</strong><br>
+                ${libraryEmail}<br>
+                <button onclick="generateEmail('${libraryName}', '${libraryEmail}')">Request Book</button>`
+            );
+            infowindow.open(map, new google.maps.Marker({ position: place.geometry.location, map }));
+        }
     });
 }
 
