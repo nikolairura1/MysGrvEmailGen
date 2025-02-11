@@ -6,14 +6,7 @@
     <title>Library Book Request</title>
     <link rel="stylesheet" href="styles.css">
     <script defer src="script.js"></script>
-fetch('/.netlify/functions/getApiKey')
-  .then(response => response.json())
-  .then(data => {
-      const script = document.createElement("script");
-      script.src = `https://maps.googleapis.com/maps/api/js?key=${data.apiKey}&libraries=places&callback=initMap`;
-      script.defer = true;
-      document.body.appendChild(script);
-  });
+
 </head>
 <body>
     <h1>Request a Book at Your Local Library</h1>
