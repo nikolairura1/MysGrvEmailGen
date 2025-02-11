@@ -10,7 +10,14 @@ const bookDescriptions = {
     "Conrad Masterworks": "A collection of masterful writings by Joseph Conrad, exploring themes of colonialism, human nature, and adventure on the high seas",
     "Oblensky Memoir": "A memoir of Prince Oblensky, detailing his life as an aristocrat, soldier, and exile after the Russian Revolution"
 };
-
+fetch('/.netlify/functions/getApiKey')
+  .then(response => response.json())
+  .then(data => {
+      const script = document.createElement("script");
+      script.src = `https://maps.googleapis.com/maps/api/js?key=${data.apiKey}&libraries=places&callback=initMap`;
+      script.defer = true;
+      document.body.appendChild(script);
+  });
 exports.handler = async () => {
     return {
         statusCode: 200,
