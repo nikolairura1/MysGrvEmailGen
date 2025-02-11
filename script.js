@@ -18,12 +18,7 @@ fetch('/.netlify/functions/getApiKey')
       script.defer = true;
       document.body.appendChild(script);
   });
-exports.handler = async () => {
-    return {
-        statusCode: 200,
-        body: JSON.stringify({ apiKey: process.env.GOOGLE_MAPS_API_KEY }),
-    };
-};
+
 
 function initMap() {
     const sevastopol = new google.maps.LatLng(44.6166, 33.5254); // Default to Sevastopol
